@@ -5,10 +5,10 @@ module NetSuite
       include Support::RecordRefs
       include Support::Actions
 
-      actions :get, :add, :delete
+      actions :get, :add, :delete, :get_select_value
 
       fields :name, :is_inactive
-      
+
       record_refs :parent
 
       attr_reader :internal_id
