@@ -28,7 +28,11 @@ module NetSuite
             end
 
             define_method("#{name_sym}=") do |value|
-              attributes[name_sym] = value.kind_of?(klass) ? value : klass.new(value)
+              if value.nil?
+                attributes.delete(name_sym)
+              else
+                attributes[name_sym] = value.kind_of?(klass) ? value : klass.new(value)
+              end
             end
           else
             define_method(name_sym) do
@@ -57,6 +61,12 @@ module NetSuite
           field name
         end
 
+        # a bit of trickery: this is for classes which inherit from other classes
+        # i.e. the AssemblyItem, KitItem, etc; this copies the superclass's fields over
+        def inherited(klass)
+          klass.instance_variable_set("@fields", self.fields)
+          klass.instance_variable_set("@read_only_fields", self.read_only_fields)
+        end
       end
 
     end

@@ -3,7 +3,6 @@ require 'set'
 require 'savon'
 require 'netsuite/version'
 require 'netsuite/errors'
-require 'netsuite/xml_logger'
 require 'netsuite/core_ext/string/lower_camelcase'
 
 module NetSuite
@@ -31,15 +30,17 @@ module NetSuite
     autoload :RecordRefs, 'netsuite/support/record_refs'
     autoload :Records,    'netsuite/support/records'
     autoload :Requests,   'netsuite/support/requests'
+    autoload :SearchResult, 'netsuite/support/search_result'
   end
 
   module Actions
-    autoload :Add,        'netsuite/actions/add'
-    autoload :Delete,     'netsuite/actions/delete'
-    autoload :Get,        'netsuite/actions/get'
-    autoload :GetSelectValue,     'netsuite/actions/get_select_value'
-    autoload :Initialize, 'netsuite/actions/initialize'
-    autoload :Update,     'netsuite/actions/update'
+    autoload :Add,              'netsuite/actions/add'
+    autoload :Delete,           'netsuite/actions/delete'
+    autoload :Get,              'netsuite/actions/get'
+    autoload :Initialize,       'netsuite/actions/initialize'
+    autoload :Update,           'netsuite/actions/update'
+    autoload :Search,           'netsuite/actions/search'
+    autoload :SearchMoreWithId, 'netsuite/actions/search_more_with_id'
   end
 
   module Records
@@ -47,6 +48,7 @@ module NetSuite
     autoload :Account,                    'netsuite/records/account'
     autoload :AccountingPeriod,           'netsuite/records/accounting_period'
     autoload :BillAddress,                'netsuite/records/bill_address'
+    autoload :BinNumberList,              'netsuite/records/bin_number_list'
     autoload :Classification,             'netsuite/records/classification'
     autoload :CreditMemo,                 'netsuite/records/credit_memo'
     autoload :CreditMemoApply,            'netsuite/records/credit_memo_apply'
@@ -62,6 +64,8 @@ module NetSuite
     autoload :CustomerAddressbook,        'netsuite/records/customer_addressbook'
     autoload :CustomerAddressbookList,    'netsuite/records/customer_addressbook_list'
     autoload :CustomerPayment,            'netsuite/records/customer_payment'
+    autoload :CustomerPaymentApply,       'netsuite/records/customer_payment_apply'
+    autoload :CustomerPaymentApplyList,   'netsuite/records/customer_payment_apply_list'
     autoload :CustomerRefund,             'netsuite/records/customer_refund'
     autoload :CustomerRefundApply,        'netsuite/records/customer_refund_apply'
     autoload :CustomerRefundApplyList,    'netsuite/records/customer_refund_apply_list'
@@ -84,10 +88,14 @@ module NetSuite
     autoload :Invoice,                    'netsuite/records/invoice'
     autoload :InvoiceItem,                'netsuite/records/invoice_item'
     autoload :InvoiceItemList,            'netsuite/records/invoice_item_list'
+    autoload :ItemFulfillment,            'netsuite/records/item_fulfillment'
+    autoload :ItemFulfillmentItem,        'netsuite/records/item_fulfillment_item'
+    autoload :ItemFulfillmentItemList,    'netsuite/records/item_fulfillment_item_list'
     autoload :Job,                        'netsuite/records/job'
     autoload :JournalEntry,               'netsuite/records/journal_entry'
     autoload :JournalEntryLine,           'netsuite/records/journal_entry_line'
     autoload :JournalEntryLineList,       'netsuite/records/journal_entry_line_list'
+    autoload :KitItem,                    'netsuite/records/kit_item'
     autoload :Location,                   'netsuite/records/location'
     autoload :NonInventorySaleItem,       'netsuite/records/non_inventory_sale_item'
     autoload :PaymentMethod,              'netsuite/records/payment_method'
@@ -100,13 +108,11 @@ module NetSuite
     autoload :ShipAddress,                'netsuite/records/ship_address'
     autoload :Task,                       'netsuite/records/task'
     autoload :Term,                       'netsuite/records/term'
+    autoload :Transaction,                'netsuite/records/transaction'
   end
 
   def self.configure(&block)
     NetSuite::Configuration.instance_eval(&block)
-    Savon.configure do |config|
-      config.logger = NetSuite::XmlLogger.new(STDOUT)
-    end
   end
 
 end

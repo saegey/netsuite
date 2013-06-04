@@ -1,20 +1,13 @@
 module NetSuite
   module Records
-    class Task
+    class Transaction
       include Support::Fields
       include Support::RecordRefs
       include Support::Records
       include Support::Actions
-      include Namespaces::ActSched
+      include Namespaces::TranSales
 
-      actions :get, :add, :delete, :update
-
-      fields :title, :send_email, :message, :status, :access_level, :reminder_type,
-             :reminder_minutes, :start_date, :end_date, :due_date, :timed_event
-
-      field :contact_list, ContactList
-
-      record_refs :assigned, :owner, :company, :contact
+      actions :get, :search, :search_more_with_id, :initialize, :add, :delete
 
       attr_reader   :internal_id
       attr_accessor :external_id
@@ -24,6 +17,19 @@ module NetSuite
         @external_id = attributes.delete(:external_id) || attributes.delete(:@external_id)
         initialize_from_attributes_hash(attributes)
       end
+
+      def self.custom_soap_advanced_search_record_type
+        'tranSales:TransactionSearchAdvanced'
+      end
+
+      def to_record
+        rec = super
+        if rec["#{record_namespace}:customFieldList"]
+          rec["#{record_namespace}:customFieldList!"] = rec.delete("#{record_namespace}:customFieldList")
+        end
+        rec
+      end
+
     end
   end
 end

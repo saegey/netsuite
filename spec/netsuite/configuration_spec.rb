@@ -18,6 +18,11 @@ describe NetSuite::Configuration do
 
   describe '#connection' do
     it 'returns a Savon::Client object that allows requests to the service' do
+      # reset clears out the password info
+      config.email 'me@example.com'
+      config.password 'me@example.com'
+      config.account 1023
+
       config.connection.should be_kind_of(Savon::Client)
     end
   end
@@ -36,6 +41,14 @@ describe NetSuite::Configuration do
     context 'when the wsdl has not been set' do
       it 'returns a path to the WSDL to use for the API' do
         config.wsdl.should match(/.*\/netsuite\/wsdl\/2011_2\.wsdl/)
+      end
+    end
+
+    context 'when the wsdl has not been set, but the API has been set' do
+      it 'should correctly return the full HTTP sandbox URL' do
+        config.api_version '2013_1'
+        config.sandbox false
+        config.wsdl.should eql('https://webservices.netsuite.com/wsdl/v2013_1_0/netsuite.wsdl')
       end
     end
   end

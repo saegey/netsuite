@@ -25,20 +25,17 @@ module NetSuite
         raise NotImplementedError, 'Please implement a #request method'
       end
 
-      def connection
-        Configuration.connection
-      end
-
-      def auth_header
-        Configuration.auth_header
-      end
-
       def build_response
-        Response.new(:success => success?, :body => response_body)
+        Response.new(:success => success?, header: response_header, :body => response_body)
       end
 
       def success?
         raise NotImplementedError, 'Please implement a #success? method'
+      end
+
+      # Only care about headers in Search class for now
+      def response_header
+        nil
       end
 
       def response_body
