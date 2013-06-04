@@ -7,7 +7,7 @@ module NetSuite
       include Support::Actions
       include Namespaces::ListEmp
 
-      actions :get, :add, :delete, :update, :search
+      actions :get, :add, :delete, :update, :search, :get_select_value
 
       fields :entity_id, :salutation, :first_name, :middle_name, :last_name, :title, :phone, :fax, :email,
              :default_address, :is_inactive, :phonetic_name, :alt_email, :initials, :office_phone, :home_phone,

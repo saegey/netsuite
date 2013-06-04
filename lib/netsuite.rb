@@ -41,6 +41,7 @@ module NetSuite
     autoload :Update,           'netsuite/actions/update'
     autoload :Search,           'netsuite/actions/search'
     autoload :SearchMoreWithId, 'netsuite/actions/search_more_with_id'
+    autoload :GetSelectValue,   'netsuite/actions/get_select_value'
   end
 
   module Records
