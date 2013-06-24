@@ -69,6 +69,10 @@ module NetSuite
         @response_hash ||= @response.to_hash[:add_response][:write_response]
       end
 
+      def error
+        @error
+      end
+
       module Support
         def add
           response = NetSuite::Actions::Add.call(self)
@@ -77,6 +81,7 @@ module NetSuite
             @internal_id = response.body[:@internal_id]
             true
           else
+            @error = response.body[:add_response][:write_response][:status][:status_detail]
             false
           end
         end

@@ -67,12 +67,21 @@ module NetSuite
         @response_hash ||= @response.to_hash[:update_response][:write_response]
       end
 
+      def error
+        @error
+      end
+
       module Support
         def update(options = {})
           options.merge!(:internal_id => internal_id) if respond_to?(:internal_id) && internal_id
           options.merge!(:external_id => external_id) if respond_to?(:external_id) && external_id
           response = NetSuite::Actions::Update.call(self.class, options)
-          response.success?
+          if response.success?
+            true
+          else
+            @error = response.body[:update_response][:write_response][:status][:status_detail]
+            false
+          end
         end
       end
 

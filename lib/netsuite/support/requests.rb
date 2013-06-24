@@ -35,11 +35,11 @@ module NetSuite
 
       # Only care about headers in Search class for now
       def response_header
-        nil
+        @response.header
       end
 
       def response_body
-        raise NotImplementedError, 'Please implement a #response_body method'
+        @response.body
       end
 
     end
