@@ -41,7 +41,7 @@ module NetSuite
                   :subsidiary, :billing_class, :image, :currency, :sales_roles, :ethnicity, :work_calendar
 
       attr_reader   :internal_id
-      attr_accessor :external_id
+      attr_accessor :external_id, :error
 
       def initialize(attributes = {})
         @internal_id = attributes.delete(:internal_id) || attributes.delete(:@internal_id)

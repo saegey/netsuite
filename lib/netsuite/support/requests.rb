@@ -26,7 +26,7 @@ module NetSuite
       end
 
       def build_response
-        Response.new(:success => success?, header: response_header, :body => response_body)
+        Response.new(:success => success?, header: @response.header, :body => @response.body)
       end
 
       def success?
@@ -35,11 +35,12 @@ module NetSuite
 
       # Only care about headers in Search class for now
       def response_header
-        nil
+        @response.header
       end
 
       def response_body
-        raise NotImplementedError, 'Please implement a #response_body method'
+        @response
+        # raise NotImplementedError, 'Please implement a #response_body method'
       end
 
     end
