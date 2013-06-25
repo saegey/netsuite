@@ -33,7 +33,6 @@ module NetSuite
         raise NotImplementedError, 'Please implement a #success? method'
       end
 
-      # Only care about headers in Search class for now
       def response_header
         @response.header
       end
