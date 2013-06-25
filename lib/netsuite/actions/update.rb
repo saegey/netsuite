@@ -22,7 +22,7 @@ module NetSuite
             'xmlns:setupCustom'    => "urn:customization_#{NetSuite::Configuration.api_version}.setup.webservices.netsuite.com",
             'xmlns:listEmp'        => "urn:employees_#{NetSuite::Configuration.api_version}.lists.webservices.netsuite.com"
           },
-        ).call :update, :message => request_body
+        ).call :update, message: request_body
       end
 
       # <platformMsgs:update>
@@ -77,9 +77,10 @@ module NetSuite
           options.merge!(:external_id => external_id) if respond_to?(:external_id) && external_id
           response = NetSuite::Actions::Update.call(self.class, options)
           if response.success?
+            @error = nil
             true
           else
-            @error = response.body[:update_response][:write_response][:status][:status_detail]
+            @error = response.response.body[:update_response][:write_response][:status][:status_detail]
             false
           end
         end

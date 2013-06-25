@@ -16,7 +16,8 @@ module NetSuite
           read_timeout: read_timeout,
           soap_header: auth_header,
           pretty_print_xml: true,
-          logger: logger
+          logger: logger,
+          filters: [:password, :password2]
           # open_timeout: ???
       }.merge(params))
     end
@@ -77,15 +78,15 @@ module NetSuite
         }
       }
     end
-    
+
     def role=(role)
       attributes[:role] = NetSuite::Records::RecordRef.new(:internal_id => role, :type => 'role')
     end
-    
+
     def role(role = nil)
       if role
         self.role = role
-      else 
+      else
         attributes[:role] ||= NetSuite::Records::RecordRef.new(:internal_id => '3', :type => 'role')
       end
     end

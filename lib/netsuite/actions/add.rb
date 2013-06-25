@@ -76,12 +76,12 @@ module NetSuite
       module Support
         def add
           response = NetSuite::Actions::Add.call(self)
-
           if response.success?
             @internal_id = response.body[:@internal_id]
+            @error = nil
             true
           else
-            @error = response.body[:add_response][:write_response][:status][:status_detail]
+            @error = response.response.body[:add_response][:write_response][:status][:status_detail]
             false
           end
         end
