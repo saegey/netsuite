@@ -37,9 +37,11 @@ module NetSuite
       attr_accessor :external_id
 
       def initialize(attributes = {})
-        @internal_id = attributes.delete(:internal_id) || attributes.delete(:@internal_id)
-        @external_id = attributes.delete(:external_id) || attributes.delete(:@external_id)
+        # @internal_id = attributes.delete(:internal_id) || attributes.delete(:@internal_id)
+        # @external_id = attributes.delete(:external_id) || attributes.delete(:@external_id)
         initialize_from_attributes_hash(attributes)
+        @internal_id = attributes[:internal_id] || attributes[:@internal_id]
+        @external_id = attributes[:external_id] || attributes[:@external_id]
       end
 
       def to_record

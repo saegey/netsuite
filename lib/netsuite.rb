@@ -110,6 +110,7 @@ module NetSuite
     autoload :Task,                       'netsuite/records/task'
     autoload :Term,                       'netsuite/records/term'
     autoload :Transaction,                'netsuite/records/transaction'
+    autoload :Vendor,                     'netsuite/records/vendor'
   end
 
   def self.configure(&block)
