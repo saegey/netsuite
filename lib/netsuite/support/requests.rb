@@ -38,7 +38,7 @@ module NetSuite
       end
 
       def response_body
-        raise NotImplementedError, 'Please implement a #success? method'
+        @response.body
       end
 
     end
